@@ -1,0 +1,19 @@
+Problem Statement: The goal of the project is to build a Deep Learning model to classify and recognize traffic signs. 
+Tools used: The whole project is implemented in python 3.7, using TensorFlow 1.12.0. In order to facilitate other functionalities, matplotlib library has been used to plot images in an organized manner, Numpy is used for Numeric processing, SciKit-image and OpenCV libraries for image processing.
+Dataset used: The dataset used is Belgian Traffic Signs Dataset. The link to the dataset is: http://btsd.ethz.ch/shareddata/. The two folders that contain training and testing images are BelgiumTSC_Training (171.3MBytes), BelgiumTSC_Testing (76.5MBytes) respectively. This dataset was selected because it relatively has a large number of images which can be used to better train the model. The training dataset consists a total of 4575 images labelled into 62 classes.
+Pre-processing: The images in the dataset are not uniformly sized, since the neural network architecture I have chosen in this project requires the images to be of the same size, it has been reduced to a size of exactly 32*32 pixels from approximately 128*128 pixels. This not only makes the size of image uniform but also reduces size of the model and training data by a factor of 16 compared to 128x128.
+Neural Network Architecture: The neural network architecture used is popularly called LeNet. There are a total of 5 layers in which 2 are convolutional and 3 are fully connected layers. 
+Layer 1- Receives pre-processed input image of shape 32*32*3. The output generated is of shape 28*28*6.
+The output of this layer is passed through the activation function. The activation function used is Rectified Linear Unit (ReLU) function.
+The next step is pooling where the number of pixels are reduced by half, the resulting image shape is 14*14*6.
+Layer 2- Receives input image of shape 14*14*6. The output generated is of shape 10*10*16.
+This is once again passed through an activation function after which pooling is performed, reducing the size of the image to 5*5*16.
+The image is then flattened to reduce the matrix to a vector and passed through 3 fully connected layers.
+Layer 3- Fully connected layer which receives input of size 400, output is 120.
+Layer 4- Fully connected layer which receives input of size 120, output is 84.
+Layer 5- Fully connected layer which receives input of size 84, output is 62 which Is the number of classes present.
+Training: A graph is created with placeholders for image and labels according to their shape. The output of the final fully connected layer is a logits vector of length 62.
+The loss function used is sparse_softmax_cross_entropy_with_logits(). The generated logits are taken and the labels and converts the label indexes of shape [None] to logits of shape [None, 62], prediction logits and label logits are then converted to probabilities by softmax. Cross-entropy between the two is then calculated. This generates a loss vector of shape [None], which is passed through reduce_mean() to get one single number that represents the loss value.
+The optimization function used is Adam optimizer because it is known to converge faster.
+Results: To evaluate the accuracy of the model, random images are taken from the training set without the label and are classified. To test the model further, a test dataset is used which is classified by the model. The test dataset is pre-processed the same way as training dataset and are classified by the trained model. The test dataset comprises a total of 2520 images. Accuracy is determined by calculating ratio of number of images correctly classified to the total number of images present. The current system gives an accuracy of around 90%.
+
